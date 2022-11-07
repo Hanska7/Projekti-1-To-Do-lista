@@ -1,31 +1,38 @@
+
+//Alustetaan ID:t valmiille muutamalle HTML elementille
 let Toiminta = document.getElementById('Lisääjä');
 let Syöte = document.getElementById('Inputti');
 let Kenttä = document.getElementById('Todo');
+let alku = document.createElement('ul');
+
+//Alustetaan laskurit Rivi ID kerta ja Rivi pituus Indeksi
 let kerta = 0;
 let indeksi = 0;
 
-let alku = document.createElement('ul');
 
-console.log(alku);
-
+//Kiinnitetään lista Diviin jotta se näkyy
 Kenttä.appendChild(alku);
 
+
+
+//Kiinnitetään käynnistysnappiin funktio
 Toiminta.addEventListener('click', käynnistys)
 
 
-
-
+//Valmistellaan tyhjennysfunktio
 function poistaja() {
 
     while (alku.firstChild) {
         alku.removeChild(alku.firstChild);
         console.log(alku.firstChild);
 
-
         }}
 
 
 
+//Määritellään käynnistäjä joka tarkistaa että sana on yli 1 merkkiä pitkä
+//Käynnistäjä luo listaelementin ja sen sisään poistonapit jolle määritellään poistofunktio
+//Käynnistäjä luo myös yliviivausfunktion kun rivielementtiä painetaan
 
 function käynnistys() {
     
@@ -52,35 +59,38 @@ function käynnistys() {
     
     rivi.classList.add('task');
     rivi.innerText = Syöte.value;
-
     rivi.setAttribute('id', "työ"+kerta);
     
+
     let testi = rivi.id
 
     console.log(rivi.innerText);
-
     let näyte = rivi.innerText;
-
     console.log(näyte);
 
     let arvo = JSON.stringify(näyte);
-
     localStorage.setItem(indeksi, arvo);
 
-    alku.appendChild(rivi);
 
+    alku.appendChild(rivi);
     console.log(testi)
 
     nappi.classList.add('delete');
     nappi.innerHTML = '<img src="roskis.png"/>';
     rivi.appendChild(nappi)
 
+
+//Tyhjennetään syöttökenttä ja poistetaan punainen väri jos tehtiin virhe ensin
     Syöte.style = "#Inputti";
     Syöte.value = "";
 
+//Päivitetään ID ja listan pituus
     kerta = kerta+1
     indeksi = indeksi+1
 
+
+//Poistonappi funktio poistaa koko rivin ja tallentaa rivin tekstin localStorageen
+//Kun jotain poistetaan alkaa seuraava vaihe eli Päivitys funktion käynnistys
 
     function poistonappi() {
 
@@ -108,7 +118,10 @@ nappi.addEventListener('click', poistonappi); {
 }}};
 
 
-
+//Päivitysfunktio ottaa poistetun arvon localStoragesta
+//Senjälkeen arvoa verrataan localStorageen tallentettuihin listassa tällä hetkellä oleviin arvoihin
+//Kohdatessa poistettu arvo se poistetaan listan arvoista ja niiden perusteella rakennetaan varmistettu lista localStorageen
+//Senjälkeen ajetaan uusinta funktio
 
 function päivitys() {
 
@@ -161,7 +174,14 @@ function päivitys() {
 
 }
 
-        
+
+//Uusinnan alussa ajetaan poistaja joka tyhjentää ruudulla olevan listan kokonaan
+//Uusintafunktio tekee ensin listan jolla täytetään ruudulla oleva lista localStoragen varmistetulla listalla
+//Kohdatessa tyhjä avain se ohitetaan ja tulostetaan "Tyhjä"
+//Jokaiselle listan arvolle luodaan uudestaan oma juokseva ID sekä uusi poistonappi funktion sisällä olevan poistofunktion avulla
+//Looppia voi jatkaa niin kauan kunnes listan alkiot loppuvat painamalla aina uudestaan poistonappia
+//Localstorage ja ruudun lista päivittyy joka painalluksella listaa vastaavaksi
+
 
 function uusinta() {
 
